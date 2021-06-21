@@ -29,7 +29,10 @@
         "laravel": {
           "providers": [
             "Ardi7923\\Laravelcms\\LaravelcmsServiceProvider"
-          ]
+          ],
+          "aliases": {
+            "CrudAjax": "Ardi7923\\Laravelcms\\CrudAjax"
+          }
         }
       }
 }
