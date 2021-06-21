@@ -1,0 +1,17 @@
+{
+    "name": "ardi/laravel-cms",
+    "description": "cms crud for laravel",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ardi7923",
+            "email": "ardiirawan777@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Ardi7923\\Laravelcms\\": "src/"
+        }
+    }
+}
