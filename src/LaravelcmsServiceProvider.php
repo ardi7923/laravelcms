@@ -17,6 +17,10 @@ class LaravelcmsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/resources/lang' => resource_path('lang/en'),
         ]);
+
+        $this->publishes([
+            __DIR__.'/../public/assets/js/obs-main.js' => public_path('js'),
+        ], 'main.js');
     }
     /**
      * Register the service provider.
