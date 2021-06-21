@@ -17,6 +17,9 @@
     "autoload": {
         "psr-4": {
             "Ardi7923\\Laravelcms\\": "src/"
-        }
+        },
+        "files": [
+           "src/Helper.php" 
+        ]
     }
 }
