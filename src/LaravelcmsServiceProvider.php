@@ -4,16 +4,8 @@ namespace Ardi7923\Laravelcms;
 
 use Illuminate\Support\ServiceProvider;
 
-class Laravel extends ServiceProvider
+class LaravelcmsServiceProvider extends ServiceProvider
 {
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-    }
 
     /**
      * Boot the instance, add macros for datatable engines.
@@ -22,6 +14,14 @@ class Laravel extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__.'/../transations', 'main');
+        $this->loadTranslationsFrom(__DIR__ . '/../transations', 'laravelcms');
+    }
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
     }
 }
