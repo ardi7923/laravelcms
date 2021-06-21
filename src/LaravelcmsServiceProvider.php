@@ -16,7 +16,7 @@ class LaravelcmsServiceProvider extends ServiceProvider
     {
 
         $this->publishes([
-            __DIR__.'/../resources/lang' => resource_path('views/vendor/laravelcms'),
+            __DIR__.'/resources/lang' => resource_path('views/vendor/laravelcms'),
         ]);
     }
     /**
