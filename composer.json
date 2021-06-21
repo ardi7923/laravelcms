@@ -28,7 +28,7 @@
         },
         "laravel": {
           "providers": [
-            "Ardi7923\\Laravelcms\\DataTablesServiceProvider"
+            "Ardi7923\\Laravelcms\\LaravelcmsServiceProvider"
           ]
         }
       }
