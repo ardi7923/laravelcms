@@ -14,10 +14,7 @@ class LaravelcmsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
-        $this->publishes([
-            __DIR__.'/resources/lang' => resource_path('views/vendor/laravelcms'),
-        ]);
+        $this->loadTranslationsFrom(__DIR__.'/resources/lang', 'laravelcms_lang');
     }
     /**
      * Register the service provider.
