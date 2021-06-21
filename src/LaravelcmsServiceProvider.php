@@ -20,7 +20,7 @@ class LaravelcmsServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__.'/public/assets/js/share' => public_path('js'),
-        ], 'public');
+        ]);
     }
     /**
      * Register the service provider.
