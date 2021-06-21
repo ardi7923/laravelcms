@@ -14,7 +14,7 @@ class LaravelcmsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__ . '/../transations', 'laravelcms');
+        $this->loadTranslationsFrom(__DIR__ . '/resources/lang', 'laravelcms');
     }
     /**
      * Register the service provider.
