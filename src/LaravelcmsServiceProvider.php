@@ -22,6 +22,6 @@ class Laravel extends ServiceProvider
      */
     public function boot()
     {
-        $this->loadTranslationsFrom(__DIR__.'/../transations', 'courier');
+        $this->loadTranslationsFrom(__DIR__.'/../transations', 'main');
     }
 }
