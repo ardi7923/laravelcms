@@ -129,9 +129,9 @@ if (!function_exists('replaceStringBase64')) {
     }
 }
 
-if (!function_exists('renderToJSon')) {
+if (!function_exists('renderToJson')) {
 
-    function RenderToJSon($view, $params = [])
+    function RenderToJson($view, $params = [])
     {
         $html =  view($view, $params)->render();
         return response()->json($html);
