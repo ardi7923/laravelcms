@@ -4,7 +4,6 @@ namespace Ardi7923\Laravelcms\Console\Commands;
 
 use Illuminate\Support\Str;
 use Ardi7923\Laravelcms\Utilities\CommandUtility;
-use Illuminate\Support\Str;
 
 class CreateControllerFile 
 {
