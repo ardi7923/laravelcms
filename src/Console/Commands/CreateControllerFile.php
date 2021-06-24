@@ -4,6 +4,7 @@ namespace Ardi7923\Laravelcms\Console\Commands;
 
 use Illuminate\Support\Str;
 use Ardi7923\Laravelcms\Utilities\CommandUtility;
+use Illuminate\Support\Str;
 
 class CreateControllerFile 
 {
@@ -66,7 +67,7 @@ class CreateControllerFile
         }
 
         
-        $controllerContent = $this->setContent($controllerName, $this->model, $this->request, $this->url, $this->folder);
+        $controllerContent = $this->setContent($controllerDir,$controllerName, $this->model, $this->request, $this->url, $this->folder);
 
         return [
             'directory' => $controllerDir,
@@ -77,16 +78,15 @@ class CreateControllerFile
         ];
     }
 
-    private function setContent($controllerName, $modelName, $requestName, $url, $folder)
+    private function setContent($controllerDir,$controllerName, $modelName, $requestName, $url, $folder)
     {
-        $requestImport   = ($requestName == '' || $requestName == null) ? '' : 'use App\\Http\\Requests\\' . $requestName . ';';
-
-        $requestParam = ($requestName == '' || $requestName == null) ? 'Request' : Str::afterLast($requestName, '/');
-
+        $requestImport = ($requestName == '' || $requestName == null) ? '' : 'use App\\Http\\Requests\\' . $requestName . ';';
+        $requestParam  = ($requestName == '' || $requestName == null) ? 'Request': Str::afterLast($requestName, '/');
+        $namespace = '\\'.Str::replaceFirst('/', '\\', (Str::after($folder, 'Controllers/'))) ?? '';
 
         $contents = '<?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers'+ $namespace +';
         
 use Illuminate\Http\Request;
 use App\Models\\' . $modelName . '; 
