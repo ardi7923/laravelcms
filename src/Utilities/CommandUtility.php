@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace Ardi7923\Laravelcms\Utilities;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
