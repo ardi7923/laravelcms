@@ -81,7 +81,7 @@ class CreateControllerFile
     {
         $requestImport = ($requestName == '' || $requestName == null) ? '' : 'use App\\Http\\Requests\\' . $requestName . ';';
         $requestParam  = ($requestName == '' || $requestName == null) ? 'Request': Str::afterLast($requestName, '/');
-        $namespace = '\\'.Str::replaceFirst('/', '\\', (Str::after($folder, 'Controllers/'))) ?? '';
+        $namespace = (Str::after($controllerDir, 'Controllers') != '') ? '\\'.Str::replaceFirst('/', '\\', (Str::after($controllerDir, 'Controllers/'))) : '';
 
         $contents = '<?php
 
@@ -190,6 +190,16 @@ class ' . $controllerName . ' extends CrudAjax
         return :-:this->setModel(:-:this->model)
                     ->setParams(["id" => :-:id])
                     ->delete();
+    }
+    /**
+     * json data for datatable.
+     *
+     * 
+     * @return DataTables
+     */
+    public function datatable()
+    {
+        
     }
     
 }';
