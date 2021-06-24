@@ -3,6 +3,8 @@
 namespace Ardi7923\Laravelcms;
 
 use Illuminate\Support\ServiceProvider;
+use Ardi7923\Laravelcms\Console\Commands\CrudAjax;
+use Ardi7923\Laravelcms\Console\Commands\CrudAjaxBladeCompiler;
 
 class LaravelcmsServiceProvider extends ServiceProvider
 {
@@ -21,6 +23,13 @@ class LaravelcmsServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/assets/js/share' => public_path('js'),
         ]);
+
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                CrudAjax::class,
+                CrudAjaxBladeCompiler::class,
+            ]);
+        }
     }
     /**
      * Register the service provider.
