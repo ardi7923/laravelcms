@@ -31,7 +31,8 @@
             "Ardi7923\\Laravelcms\\LaravelcmsServiceProvider"
           ],
           "aliases": {
-            "CrudAjax": "Ardi7923\\Laravelcms\\CrudAjax"
+            "CrudAjax": "Ardi7923\\Laravelcms\\CrudAjax",
+            "CrudAjaxSet": "Ardi7923\\Laravelcms\\CrudAjaxSet",
           }
         }
       }
