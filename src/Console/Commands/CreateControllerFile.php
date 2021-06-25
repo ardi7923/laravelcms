@@ -85,7 +85,7 @@ class CreateControllerFile
 
         $contents = '<?php
 
-namespace App\Http\Controllers'+ $namespace +';
+namespace App\Http\Controllers'. $namespace .';
         
 use Illuminate\Http\Request;
 use App\Models\\' . $modelName . '; 
