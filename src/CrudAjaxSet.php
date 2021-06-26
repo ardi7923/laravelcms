@@ -12,7 +12,6 @@ class CrudAjaxSet extends CrudAjax
     protected $folder;
     protected $model;
     protected $url;
-    protected $request;
     protected $validator;
 
     public function __construct()
