@@ -21,6 +21,11 @@ class CrudAjaxSet extends CrudAjax
         $this->response  = new ResponseService;
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
         if($request->ajax()){
@@ -30,17 +35,33 @@ class CrudAjaxSet extends CrudAjax
         return view($this->folder.'index');
     }
 
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create()
     {
         return renderToJson($this->folder.'create');
     }
-
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function edit($id)
     {
         $data = $this->model->findOrFail($id);
         return renderToJson($this->folder."edit",compact("data"));
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {   
         if($this->validator){
@@ -89,7 +110,12 @@ class CrudAjaxSet extends CrudAjax
                     ->change();
     }
      
-
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy($id)
     {
        return $this->setModel($this->model)
@@ -98,7 +124,7 @@ class CrudAjaxSet extends CrudAjax
     }
 
 
-        /**
+    /**
      * json data for datatable.
      *
      * 
