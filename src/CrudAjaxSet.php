@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use DataTables;
 use Ardi7923\Laravelcms\Services\ResponseService;
 use Illuminate\Support\Facades\Validator;
+use Ardi7923\Laravelcms\Crud;
 
-class CrudAjaxSet extends CrudAjax
+class CrudAjaxSet extends Crud
 {    
     protected $folder;
     protected $model;

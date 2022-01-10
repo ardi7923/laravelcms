@@ -137,3 +137,11 @@ if (!function_exists('renderToJson')) {
         return response()->json($html);
     }
 }
+
+if (!function_exists('get_age')) {
+
+    function get_age($year)
+    {
+        return now()->format("Y") - $year;
+    }
+}

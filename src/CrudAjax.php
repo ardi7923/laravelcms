@@ -2,39 +2,17 @@
 
 namespace Ardi7923\Laravelcms;
 
-use App\Http\Controllers\Controller;
+use Ardi7923\Laravelcms\Crud;
 use Ardi7923\Laravelcms\Services\ResponseService;
 
-class CrudAjax extends Controller
+class CrudAjax extends Crud
 {
     private $model,
             $request,
             $facade = null,
             $params = [];
 
-    public function setModel($model)
-    {
-        $this->model = $model;
-        return $this;
-    }
 
-    public function setRequest($request)
-    {
-        $this->request = $request;
-        return $this;
-    }
-
-    public function setFacade($facade)
-    {
-        $this->facade = $facade;
-        return $this;
-    }
-
-    public function setParams($params)
-    {
-        $this->params = $params;
-        return $this;
-    }
 
     // save method =========================================
     public function save($data = [])

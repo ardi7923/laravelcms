@@ -6,7 +6,7 @@ const showForm = function () {
         type: 'get',
         dataType: 'json',
         beforeSend: function () {
-            $('#modals').modal({ backdrop: 'static', keyboard: false });
+            $('#modals').modal('show');
             $('#modals .modal-dialog').addClass('modal-' + btn.attr('data-size'));
             $('#modals .modal-content').html(`
             <center>
@@ -163,6 +163,7 @@ const saveForm = function () {
     return false;
 }
 // save with image
+// save with image
 const saveWithImage = function () {
 
     var form = $(this);
@@ -175,22 +176,67 @@ const saveWithImage = function () {
         data: form.serialize() + add_request,
         type: form.attr('method'),
         dataType: 'json',
+        beforeSend: function () {
+            isLoadingSubmitButton(true);
+        },
         success: function (response) {
-
-            if (response['code'] == 200) {
+            if (form.attr('data-type') == "reload") {
+                location.reload();
+            } else {
                 $('#myTable').DataTable().ajax.reload();
-                $('#modals').modal('hide');
-                Swal({
-                    title: 'Berhasil',
-                    text: response['msg'],
-                    type: 'success',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    allowOutsideClick: false,
+            }
+
+            $('#modals').modal('hide');
+            Swal({
+                title: 'Berhasil',
+                text: response['msg'],
+                type: 'success',
+                showConfirmButton: false,
+                timer: 2000,
+                allowOutsideClick: false,
+            });
+
+        }, error: function (jqXHR, exception) {
+            successAllInput()
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+                showErrorsDetailModal(msg);
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+                showErrorsDetailModal(msg);
+            } else if (jqXHR.status == 500) {
+                msg = jqXHR.responseJSON.errors[0];
+                showErrorsDetailModal(msg);
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+                showErrorsDetailModal(msg);
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+                showErrorsDetailModal(msg);
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+                showErrorsDetailModal(msg);
+            } else if (jqXHR.status == 422) {
+
+                isLoadingSubmitButton(false)
+                successAllInput()
+
+                $.each(jqXHR.responseJSON.errors, function (i, error) {
+                    var el = $(document).find('[name="' + i + '"]');
+                    el.removeClass("is-valid");
+                    el.nextAll('small:first').remove();
+                    el.addClass("is-invalid");
+                    el.after('<small style="color: red;">' + error[0] + '</small>');
                 });
             } else {
-                $('#modals .errors').html(response['errors']);
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                showErrorsDetailModal(msg);
             }
+
+            isLoadingSubmitButton(false);
+
+
         }
     });
 
@@ -304,7 +350,7 @@ window.autoNumericGlobal = function (var1, var2) {
         }
     });
 
-    return $('.' + var1).autoNumeric('init', { mDec: '2' });
+    return $('.' + var1).autoNumeric('init', { mDec: '0' });
 }
 // Document Ready ============================================================
 window.menuOpen = function (type, idMenu, idSubmenu = '') {
@@ -319,6 +365,10 @@ window.menuOpen = function (type, idMenu, idSubmenu = '') {
         $("#" + idSubmenu).addClass("active");
 
     }
+}
+
+window.numberWithCommas = function (num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 const validationAlert = function (text) {
