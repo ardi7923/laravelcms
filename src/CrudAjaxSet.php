@@ -4,24 +4,17 @@ namespace Ardi7923\Laravelcms;
 
 use Illuminate\Http\Request;
 use DataTables;
-use Ardi7923\Laravelcms\Services\ResponseService;
 use Illuminate\Support\Facades\Validator;
-use Ardi7923\Laravelcms\Crud;
 
-class CrudAjaxSet extends Crud
-{    
-    protected $folder;
-    protected $model;
-    protected $url;
-    protected $validator;
+class CrudAjaxSet extends CrudAjax
+{
+    protected $modalSize;
 
     public function __construct()
     {
-        $this->model     = new $this->model;
-        $this->validator = new $this->validator;
-        $this->response  = new ResponseService;
+        parent::__construct();
+        $this->modalSize = $this->modalSize ?? "md";
     }
-
     /**
      * Display a listing of the resource.
      *
@@ -29,11 +22,11 @@ class CrudAjaxSet extends Crud
      */
     public function index(Request $request)
     {
-        if($request->ajax()){
+        if ($request->ajax()) {
             return $this->datatable();
         }
 
-        return view($this->folder.'index');
+        return view($this->folder . 'index');
     }
 
     /**
@@ -43,8 +36,9 @@ class CrudAjaxSet extends Crud
      */
     public function create()
     {
-        return renderToJson($this->folder.'create');
+        return renderToJson($this->folder . 'create');
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -54,7 +48,7 @@ class CrudAjaxSet extends Crud
     public function edit($id)
     {
         $data = $this->model->findOrFail($id);
-        return renderToJson($this->folder."edit",compact("data"));
+        return renderToJson($this->folder . "edit", compact("data"));
     }
 
     /**
@@ -64,23 +58,21 @@ class CrudAjaxSet extends Crud
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
-        if($this->validator){
-            $validator = Validator::make($request->all(),$this->validator->rules());
+    {
+        if ($this->validator) {
+            $validator = Validator::make($request->all(), $this->validator->rules());
 
-	        if ($validator->fails()) {
-	           $errors =  $validator->errors()->getMessages();
+            if ($validator->fails()) {
+                $errors =  $validator->errors()->getMessages();
 
-	           return $this->response
-                            ->setCode(422)
-                            ->setErrors($errors)
-                            ->error();
-	        }
-		}
+                return $this->response
+                    ->setCode(422)
+                    ->setErrors($errors)
+                    ->error();
+            }
+        }
 
-        return $this->setModel($this->model)
-                    ->setRequest($request)
-                    ->save();
+        return $this->save();
     }
 
     /**
@@ -92,25 +84,22 @@ class CrudAjaxSet extends Crud
      */
     public function update(Request $request, $id)
     {
-        if($this->validator){
-            $validator = Validator::make($request->all(),$this->validator->rules());
+        if ($this->validator) {
+            $validator = Validator::make($request->all(), $this->validator->rules());
 
-	        if ($validator->fails()) {
-	           $errors =  $validator->errors()->getMessages();
+            if ($validator->fails()) {
+                $errors =  $validator->errors()->getMessages();
 
-	           return $this->response
-                            ->setCode(422)
-                            ->setErrors($errors)
-                            ->error();
-	        }
-		}
+                return $this->response
+                    ->setCode(422)
+                    ->setErrors($errors)
+                    ->error();
+            }
+        }
 
-        return $this->setModel($this->model)
-                    ->setRequest($request)
-                    ->setParams([ "id" => $id ])
-                    ->change();
+        return $this->setParams($id)->change();
     }
-     
+
     /**
      * Remove the specified resource from storage.
      *
@@ -119,9 +108,7 @@ class CrudAjaxSet extends Crud
      */
     public function destroy($id)
     {
-       return $this->setModel($this->model)
-                   ->setParams(['id' => $id])
-                   ->delete();
+        return $this->setParams($id)->delete();
     }
 
 
@@ -134,17 +121,18 @@ class CrudAjaxSet extends Crud
     public function datatable()
     {
         $data  = $this->model->query();
-        
+
         return DataTables::of($data)
-        ->addIndexColumn()
-        ->addColumn('action', function ($data) {
-            return view('components.datatables.action', [
-                'data'        => $data,
-                'url_edit'    => url($this->url . $data->id . '/edit'),
-                'url_destroy' => url($this->url . $data->id),
-                'delete_text' => view($this->folder . 'delete', compact('data'))->render()
-            ]);
-        })
-        ->make(true); 
+            ->addIndexColumn()
+            ->addColumn('action', function ($data) {
+                return view('components.datatables.action', [
+                    'data'        => $data,
+                    'url_edit'    => url($this->url . $data->id . '/edit'),
+                    'size'        => $this->modalSize,
+                    'url_destroy' => url($this->url . $data->id),
+                    'delete_text' => view($this->folder . 'delete', compact('data'))->render()
+                ]);
+            })
+            ->make(true);
     }
 }
