@@ -12,7 +12,7 @@
         "php": "^8.1",
         "intervention/image": "^2.4",
         "yajra/laravel-datatables-oracle" : "^10.*",
-        "illuminate/database" : "^9.0"
+        "illuminate/database": "self.version"
     },
     "autoload": {
         "psr-4": {
