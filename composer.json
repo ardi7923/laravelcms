@@ -10,7 +10,6 @@
     ],
     "require": {
         "php": "^8.1",
-        "illuminate/view": "^9.8.1",
         "intervention/image": "^2.4",
         "yajra/laravel-datatables-oracle" : "~10.0"
     },
