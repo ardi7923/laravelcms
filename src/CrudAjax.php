@@ -7,18 +7,31 @@ use Ardi7923\Laravelcms\Services\ResponseService;
 
 class CrudAjax extends Crud
 {
-    private $model,
-            $request,
-            $facade = null,
+    private $facade = null,
             $params = [];
 
+    public function __construct()
+    {
+        parent::__construct();
+        $this->response  = new ResponseService;
+    }
 
+    public function setFacade($facade)
+    {
+        $this->facade = $facade;
+        return $this;
+    }
+
+    public function setParams($params)
+    {
+        $this->params = $params;
+        return $this;
+    }
 
     // save method =========================================
     public function save($data = [])
     {
         $response     = new ResponseService;
-
         try {
 
             if ($this->facade == null) {
@@ -34,7 +47,6 @@ class CrudAjax extends Crud
             return $response->setCode(200)
                 ->setMsg("Data Berhasil Disimpan")
                 ->success();
-
         } catch (\Exception $e) {
 
             $errors = [$e->getMessage()];
@@ -42,6 +54,7 @@ class CrudAjax extends Crud
             return $response->setErrors($errors)->error();
         }
     }
+
     // update ========================================
     public function change($data = [])
     {
@@ -52,11 +65,10 @@ class CrudAjax extends Crud
             if ($this->facade == null) {
 
                 if ($data) {
-                    $this->model->where($this->params)->update($data);
+                    $this->model->where($this->InitializeParams($this->params))->update($data);
                 } else {
-                    $this->model->where($this->params)->update($this->request->except('_token', '_method'));
+                    $this->model->where($this->InitializeParams($this->params))->update($this->request->except('_token', '_method'));
                 }
-
             } else {
                 $this->facade->update($this->request, $this->params);
             }
@@ -64,7 +76,6 @@ class CrudAjax extends Crud
             return $response->setCode(200)
                 ->setMsg("Data Berhasil Diubah")
                 ->success();
-
         } catch (\Exception $e) {
 
             $errors = [$e->getMessage()];
@@ -77,17 +88,16 @@ class CrudAjax extends Crud
         $response = new ResponseService;
 
         try {
-            
+
             if ($this->facade == null) {
-                $this->model->where($this->params)->delete();
+                $this->model->where($this->InitializeParams($this->params))->delete();
             } else {
-                $this->facade->delete($this->params);
+                $this->facade->delete($this->InitializeParams($this->params));
             }
 
             return $response->setCode(200)
                 ->setMsg("Data Berhasil Dihapus")
                 ->success();
-
         } catch (\Exception $e) {
 
             $errors = [$e->getMessage()];
