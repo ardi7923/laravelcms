@@ -10,9 +10,7 @@
     ],
     "require": {
         "php": "^8.1",
-        "illuminate/database": "^9.0",
-        "intervention/image": "^2.4",
-        "yajra/laravel-datatables-oracle" : "^10.11"
+        "intervention/image": "^2.4"
         
     },
     "autoload": {
@@ -25,7 +23,7 @@
     },
     "extra": {
         "branch-alias": {
-          "dev-master": "0.0-dev"
+          "dev-master": "1.0-dev"
         },
         "laravel": {
           "providers": [
