@@ -43,11 +43,9 @@ const showForm = function () {
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <center>
-            <div class="alert alert-danger" role="alert">
-            `+ msg + `
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            `+ msg + ` tes
+            <button type="button" class="btn-close p-0" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
                
             </center>
@@ -57,14 +55,11 @@ const showForm = function () {
 }
 
 const showErrorsDetailModal = function (msg) {
-    errors = `<div class="alert alert-icon-left alert-arrow-left alert-danger alert-dismissible mb-2" role="alert">
-                <span class="alert-icon"><i class="la la-warning"></i></span>
+    errors = `<div class="alert d-flex alert-danger alert-dismissible mb-2" role="alert">
                 <ul>
                     <li class="text-bold">`+ msg + `</li>
                 </ul>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                 <button type="button" class="btn-close p-0" data-bs-dismiss="alert" aria-label="Close"></button>   
             </div>`;
     $('#modals .errors').html(errors);
 }
@@ -285,13 +280,19 @@ const deleteForm = function () {
     var url = btn.attr('data-url');
     var text = btn.attr('data-text');
     var type = btn.attr('data-type');
+    var title = btn.attr("data-title");
     var data = {
         _method: 'DELETE',
         _token: $('meta[name="token"]').attr('content')
     };
+    var textTitle = "";
+    if(title == "data"){
+         textTitle = "Menghapus Data dengan <br /> ";
+    }
+
     Swal({
         title: 'Apakah Anda Yakin?',
-        html: "Menghapus Data dengan <br />" + text,
+        html: textTitle + text,
         type: 'question',
         showCancelButton: true,
         confirmButtonColor: '#d33',

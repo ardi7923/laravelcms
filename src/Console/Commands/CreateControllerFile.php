@@ -4,6 +4,7 @@ namespace Ardi7923\Laravelcms\Console\Commands;
 
 use Illuminate\Support\Str;
 use Ardi7923\Laravelcms\Utilities\CommandUtility;
+use File;
 
 class CreateControllerFile 
 {
@@ -47,163 +48,70 @@ class CreateControllerFile
 
     public function create(){
 
-        $path = app_path();
+        $baseFolderApp = substr(dirname(__FILE__),0,-44)."/app";
+        $baseFolderPackage = substr(dirname(__FILE__),0,-17);
+        $pathExController = "/assets/controller/CrudAjaxController.php";
 
         if (Str::contains($this->name, '/')) {
 
             $controllerName = Str::afterLast($this->name, '/');
-            $file           = "${controllerName}.php";
             $subFolder      = Str::beforeLast($this->name, '/');
-            $file           = $path . "/Http/Controllers/$subFolder/$file";
-            $controllerDir  = $path . "/Http/Controllers/$subFolder";
+            $file           = $baseFolderApp . "/Http/Controllers/$subFolder/".$controllerName.".php";
+            $controllernamespace  = "\\".Str::replace("/","\\",$subFolder);
 
         }else{
 
             $controllerName = $this->name;
-            $file           = "${controllerName}.php";
-            $file           = $path . "/Http/Controllers/$file";
-            $controllerDir  = $path . "/Http/Controllers";
+            $file           = $baseFolderApp . "/Http/Controllers/".$controllerName.".php";
+            $controllerDir  = $baseFolderApp . "/Http/Controllers";
+            $controllernamespace = "";
         }
 
-        
-        $controllerContent = $this->setContent($controllerDir,$controllerName, $this->model, $this->request, $this->url, $this->folder);
-
-        return [
-            'directory' => $controllerDir,
-            'path'      => $path,
-            'name'      => $controllerName,
-            'file'      => $file,
-            'content'   => $controllerContent
-        ];
-    }
-
-    private function setContent($controllerDir,$controllerName, $modelName, $requestName, $url, $folder)
-    {
-        $requestImport = ($requestName == '' || $requestName == null) ? '' : 'use App\\Http\\Requests\\' . $requestName . ';';
-        $requestParam  = ($requestName == '' || $requestName == null) ? 'Request': Str::afterLast($requestName, '/');
-        $namespace = (Str::after($controllerDir, 'Controllers') != '') ? '\\'.Str::replaceFirst('/', '\\', (Str::after($controllerDir, 'Controllers/'))) : '';
-
-        $contents = '<?php
-
-namespace App\Http\Controllers'. $namespace .';
-        
-use Illuminate\Http\Request;
-use App\Models\\' . $modelName . '; 
-use CrudAjax;
-' . $requestImport . '
-
-class ' . $controllerName . ' extends CrudAjax
-{
-    private :-:model;
-
-    public function __construct(' . $modelName . ' :-:model)
-    {
-        :-:this->url    = "' . $url . '/";
-        :-:this->folder = "' . $folder . '.";
-        :-:this->model  = :-:model;
-    }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request :-:request)
-    {
-
-        if ($request->ajax()) {
-            return :-:this->datatable();
+        if (Str::contains($this->model, '/')) {
+            $modelName      = Str::afterLast($this->model, '/');
+            $modelFolder    = Str::beforeLast($this->model, '/');
+            $modelPath      = "\\".Str::replace("/","\\",$this->model);
+        }else{
+            $modelName      = $this->model;
+            $modelFolder    = "";
+            $modelPath      = "\\".$this->model;
         }
 
-        return view(:-:this->folder."index");
+        if($this->request){
+            $requestName = Str::afterLast($this->request, '/');
+            if (Str::contains($this->request, '/')) {
+                $requestpath = "use App\Http\Requests"."\\".Str::replace("/","\\",$this->request).";";
+                $requestName = $requestName;
+            }else{
+
+                $requestpath = "use App\Http\Requests"."\\".$requestName.";";
+                $requestName = $requestName;
+            }
+        }else{
+            $requestpath = "";
+            $requestName = "Request";
+        }
+//        return $modelPath;
+
+
+        File::copy($baseFolderPackage.$pathExController,$file);
+
+        $str = file_get_contents($file);
+        $str = str_replace("controllerName", $controllerName,$str);
+        $str = str_replace("\controllernamespace", $controllernamespace,$str);
+
+        $str = str_replace("\modelPath", $modelPath,$str);
+        $str = str_replace("modelName", $modelName,$str);
+        $str = str_replace("urlName", $this->url,$str);
+        $str = str_replace("folderPath", $this->folder,$str);
+
+        $str = str_replace("requestName", $requestName,$str);
+        $str = str_replace("requestpath", $requestpath,$str);
+
+
+
+        file_put_contents($file, $str);
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return renderToJson(:-:this->folder."create");
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  :-:request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(' . $requestParam . ' :-:request)
-    {
-        return :-:this->setModel(:-:this->model)
-                    ->setRequest(:-:request)
-                    ->save();
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  :-:id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(:-:id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  :-:id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(:-:id)
-    {
-        :-:data = :-:this->model->findOrFail(:-:id);
-        return renderToJson(:-:this->folder."edit",compact("data"));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  :-:request
-     * @param  int  :-:id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(' . $requestParam . ' :-:request, :-:id)
-    {
-        return :-:this->setModel(:-:this->model)
-                    ->setRequest(:-:request)
-                    ->setParams([ "id" => :-:id ])
-                    ->change();
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  :-:id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(:-:id)
-    {
-        return :-:this->setModel(:-:this->model)
-                    ->setParams(["id" => :-:id])
-                    ->delete();
-    }
-    /**
-     * json data for datatable.
-     *
-     * 
-     * @return DataTables
-     */
-    public function datatable()
-    {
-        
-    }
-    
-}';
-
-        return $contents;
-    }
 }

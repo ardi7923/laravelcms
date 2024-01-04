@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Ardi7923\Laravelcms\Utilities\CommandUtility;
 use Ardi7923\Laravelcms\Console\Commands\CreateControllerFile;
+use File;
 
 class CrudAjax extends Command
 {
@@ -78,7 +79,7 @@ class CrudAjax extends Command
         }
 
         // url input
-        $url = $this->ask('Url');
+        $url = $this->ask('Url ? (ex : tes/)');
 
         /**
          * check Url
@@ -89,7 +90,7 @@ class CrudAjax extends Command
         }
 
         // Folder input
-        $folder = $this->ask('Blade Folder Path');
+        $folder = $this->ask('Blade Folder Path ? (ex : pages.tes.)');
 
         /**
          * check Folder Path
@@ -113,15 +114,15 @@ class CrudAjax extends Command
             $requestName = $this->ask('Request name ?');
         }
 
-        $controllerContent =  $this->create_controller
-                                    ->setModel($modelName)
-                                    ->setName($inputControllerName)
-                                    ->setUrl($url)
-                                    ->setFolder($folder)
-                                    ->setRequest(($choiceRequest === "Yes") ? $requestName : '')
-                                    ->create();
         // compile Controller
-        $this->createFile($controllerContent['file'], $controllerContent['content']);
+        $this->create_controller
+            ->setModel($modelName)
+            ->setName($inputControllerName)
+            ->setUrl($url)
+            ->setFolder($folder)
+            ->setRequest(($choiceRequest === "Yes") ? $requestName : '')
+            ->create();
+//        $this->info($tes);
         $this->info('Controller Compiled !!');
        
         // compile Blade
