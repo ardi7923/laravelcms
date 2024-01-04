@@ -5,7 +5,7 @@ namespace Ardi7923\Laravelcms\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Ardi7923\Laravelcms\Utilities\CommandUtility;
-use Ardi7923\Laravelcms\Console\Commands\CreateControllerFile;
+use Ardi7923\Laravelcms\Console\Commands\CreateCrudAjaxControllerFile;
 use File;
 
 class CrudAjax extends Command
@@ -32,7 +32,7 @@ class CrudAjax extends Command
      *
      * @return void
      */
-    public function __construct(Filesystem $files, CreateControllerFile $create_controller)
+    public function __construct(Filesystem $files, CreateCrudAjaxControllerFile $create_controller)
     {
         $this->files = $files;
         $this->path = app_path();
