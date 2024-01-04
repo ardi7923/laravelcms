@@ -6,15 +6,15 @@ use Illuminate\Support\Str;
 use Ardi7923\Laravelcms\Utilities\CommandUtility;
 use File;
 
-class CreateControllerFile 
+class CreateCrudAjaxSetFileController
 {
     use CommandUtility;
 
     private $name,
-            $folder,
-            $url,
-            $model,
-            $request;
+        $folder,
+        $url,
+        $model,
+        $request;
 
     public function setName($name)
     {
@@ -50,7 +50,7 @@ class CreateControllerFile
 
         $baseFolderApp = substr(dirname(__FILE__),0,-44)."/app";
         $baseFolderPackage = substr(dirname(__FILE__),0,-17);
-        $pathExController = "/assets/controller/CrudAjaxController.php";
+        $pathExController = "/assets/controller/CrudAjaxSetController.php";
 
         if (Str::contains($this->name, '/')) {
 

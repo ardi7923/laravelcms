@@ -5,6 +5,7 @@ namespace Ardi7923\Laravelcms;
 use Illuminate\Support\ServiceProvider;
 use Ardi7923\Laravelcms\Console\Commands\CrudAjax;
 use Ardi7923\Laravelcms\Console\Commands\CrudAjaxBladeCompiler;
+use Ardi7923\Laravelcms\Console\Commands\CrudAjaxSetCommand;
 
 class LaravelcmsServiceProvider extends ServiceProvider
 {
@@ -28,6 +29,7 @@ class LaravelcmsServiceProvider extends ServiceProvider
             $this->commands([
                 CrudAjax::class,
                 CrudAjaxBladeCompiler::class,
+                CrudAjaxSetCommand::class
             ]);
         }
     }

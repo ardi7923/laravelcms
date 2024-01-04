@@ -130,6 +130,7 @@ class CrudAjaxSet extends CrudAjax
                     'url_edit'    => url($this->url . $data->id . '/edit'),
                     'size'        => $this->modalSize,
                     'url_destroy' => url($this->url . $data->id),
+                    'detele_title'=> "data",
                     'delete_text' => view($this->folder . 'delete', compact('data'))->render()
                 ]);
             })

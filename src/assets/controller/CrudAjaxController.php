@@ -7,7 +7,7 @@ use App\Models\modelPath;
 use CrudAjax;
 use Illuminate\Http\Request;
 use DataTables;
-requestpath
+requestpath;
 
 class controllerName extends CrudAjax
 {
