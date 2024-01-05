@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 use Ardi7923\Laravelcms\Utilities\CommandUtility;
 use File;
 
-class CreateControllerFile 
+class CreateCrudAjaxControllerFile 
 {
     use CommandUtility;
 
