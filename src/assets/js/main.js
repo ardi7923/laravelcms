@@ -40,11 +40,11 @@ const showForm = function () {
             $('#modals .modal-content').html(`
             <div class="modal-header">
                 <h4 class="modal-title" id="exampleModalLabel"> Terjadi Kesalahan</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <center>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            `+ msg + ` tes
+            `+ msg + `
             <button type="button" class="btn-close p-0" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
                
@@ -287,7 +287,7 @@ const deleteForm = function () {
     };
     var textTitle = "";
     if(title == "data"){
-         textTitle = "Menghapus Data dengan <br /> ";
+        textTitle = "Menghapus Data dengan <br /> ";
     }
 
     Swal({

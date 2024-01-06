@@ -48,7 +48,7 @@ class CrudAjaxSetCommand extends Command
      */
     public function handle()
     {
-        $this->info("Crud Ajax Started......");
+        $this->info("Crud Ajax Set Started......");
         sleep(1);
 
         $modelName = $this->ask('Whats Model name ?');
@@ -101,18 +101,9 @@ class CrudAjaxSetCommand extends Command
         }
 
 
-        $requestName = '';
-        $choiceRequest = $this->choice(
-            'Did you create Request?',
-            ['No', 'Yes'],
-            'Yes',
-            null,
-            false
-        );
 
-        if ($choiceRequest === 'Yes') {
-            $requestName = $this->ask('Request name ?');
-        }
+        $requestName = $this->ask('Request name ?');
+        
 
         // compile Controller
         $this->create_controller
