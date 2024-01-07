@@ -5,7 +5,6 @@ namespace Ardi7923\Laravelcms\Utilities;
 trait RequestUtility
 {
     
-
     public function setModel($model)
     {
         $this->model = $model;
@@ -27,6 +26,12 @@ trait RequestUtility
     public function setParams($params)
     {
         $this->params = $params;
+        return $this;
+    }
+
+    public function setFiles($files)
+    {
+        $this->files = $files;
         return $this;
     }
 

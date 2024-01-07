@@ -22,6 +22,24 @@ trait FileTrait
         }
     }
 
+    public function saveFileBase64($filename, $path, $file)
+    {
+        try {
+            if($file){
+                $ext = getTypeFileBase64($file);
+                $image = replaceStringBase64($file,$ext);
+                Storage::disk('public')->put($path."/".$filename.".".$ext, base64_decode($image));
+
+                return "/storage/".$path."/".$filename.".".$ext;
+            }else{
+                return null;
+            }
+
+        }catch (\Exception $exception){
+            throw $exception;
+        }
+    }
+
     public function updateFile($filename, $path, $file,$data)
     {
         try {
@@ -33,6 +51,35 @@ trait FileTrait
                 }else{
                     Storage::putFileAs($path,$file,$filename);
                     return str_replace("/public","/storage",$path."/").$filename;
+                }
+
+            }else{
+                return $data;
+            }
+
+        }catch (\Exception $exception){
+            throw $exception;
+        }
+    }
+
+
+    public function updateFileBase64($filename, $path, $file,$data)
+    {
+        try {
+            if($file){
+                if($data){
+                    File::delete(substr($data,1));
+                    $ext = getTypeFileBase64($file);
+                    $image = replaceStringBase64($file,$ext);
+                    Storage::disk('public')->put($path."/".$filename.".".$ext, base64_decode($image));
+
+                    return "/storage/".$path."/".$filename.".".$ext;
+                }else{
+                    $ext = getTypeFileBase64($file);
+                    $image = replaceStringBase64($file,$ext);
+                    Storage::disk('public')->put($path."/".$filename.".".$ext, base64_decode($image));
+
+                    return "/storage/".$path."/".$filename.".".$ext;
                 }
 
             }else{

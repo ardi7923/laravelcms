@@ -4,9 +4,12 @@ namespace Ardi7923\Laravelcms;
 
 use Ardi7923\Laravelcms\Crud;
 use Ardi7923\Laravelcms\Services\ResponseService;
+use Ardi7923\Laravelcms\Traits\FileTrait;
+use Faker\Core\File;
 
 class CrudAjax extends Crud
 {
+    use FileTrait;
     private $facade = null,
             $params = [];
 
@@ -90,7 +93,24 @@ class CrudAjax extends Crud
         try {
 
             if ($this->facade == null) {
-                $this->model->where($this->InitializeParams($this->params))->delete();
+                $data = $this->model->where($this->InitializeParams($this->params))->firstOrFail();
+
+                if($this->files){
+                    if(is_array($this->files)){
+                        foreach ($this->files as $file){
+                            $field_file = $this->files;
+                            $file_name = $data->$field_file;
+                            $this->deleteFile($file_name);
+                        }
+                    }else{
+                        $field_file = $this->files;
+                        $file = $data->$field_file;
+
+                        $this->deleteFile($file);
+
+                    }
+                }
+                $data->delete();
             } else {
                 $this->facade->delete($this->InitializeParams($this->params));
             }
