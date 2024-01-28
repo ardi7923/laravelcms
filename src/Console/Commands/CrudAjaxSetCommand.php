@@ -111,7 +111,7 @@ class CrudAjaxSetCommand extends Command
             ->setName($inputControllerName)
             ->setUrl($url)
             ->setFolder($folder)
-            ->setRequest(($choiceRequest === "Yes") ? $requestName : '')
+            ->setRequest( $requestName )
             ->create();
 //        $this->info($tes);
         $this->info('Controller Compiled !!');
@@ -122,11 +122,10 @@ class CrudAjaxSetCommand extends Command
         ]);
 
         // compile Request
-        if ($choiceRequest === 'Yes') {
             $this->call('make:request', [
                 'name' => $requestName
             ]);
-        }
+        
 
         $this->info(str_repeat('-',25));
         $this->info('Crud Ajax Genenerated');
