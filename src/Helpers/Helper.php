@@ -120,9 +120,9 @@ if (!function_exists('getTypeFileBase64')) {
 
 if (!function_exists('replaceStringBase64')) {
 
-    function replaceStringBase64($stringBase)
+    function replaceStringBase64($stringBase,$ext)
     {
-        $image = str_replace('data:image/png;base64,', '', $stringBase);
+        $image = str_replace('data:image/'.$ext.';base64,', '', $stringBase);
         $image = str_replace(' ', '+', $image);
 
         return $image;
