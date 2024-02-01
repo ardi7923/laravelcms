@@ -11,6 +11,7 @@ trait FileTrait
     {
         try {
             if($file){
+                $filename = $filename.'.'.$file->getClientOriginalExtension();
                 Storage::putFileAs($path,$file,$filename);
                 return str_replace("/public","/storage",$path."/").$filename;
             }else{
@@ -46,9 +47,11 @@ trait FileTrait
             if($file){
                 if($data){
                     File::delete(substr($data,1));
+                    $filename = $filename.'.'.$file->getClientOriginalExtension();
                     Storage::putFileAs($path,$file,$filename);
                     return str_replace("/public","/storage",$path."/").$filename;
                 }else{
+                    $filename = $filename.'.'.$file->getClientOriginalExtension();
                     Storage::putFileAs($path,$file,$filename);
                     return str_replace("/public","/storage",$path."/").$filename;
                 }
